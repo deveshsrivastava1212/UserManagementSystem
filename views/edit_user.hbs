@@ -1,0 +1,35 @@
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+        </ol>
+    </nav>
+</div>
+<h1>Edit User</h1>
+
+{{#if alert}}
+<div class="alert alert-success" role="alert">
+  <h3 class="alert-heading" style="margin-top:5px">Well done!</h3>
+  <p style="margin-top:3px;">Updated Successfully</p>
+  <br>
+  <a href= "/" style="margin-bottom:2px;">Go to home page</p>
+</div>
+{{/if}}
+
+<div class="row">
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td colspan="1">
+                    {{#each rows}}
+                    <form class="well form-horizontal g-3 needs-validation" method="POST" action="/edituser/{{this.id}}" novalidate>
+                    {{>user_form}}
+                    
+                    </form>
+                    {{/each}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
