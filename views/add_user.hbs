@@ -1,4 +1,5 @@
 
+
 <div class="row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -12,11 +13,24 @@
 
 {{#if alert}}
 <div class="alert alert-success" role="alert">
-  <h3 class="alert-heading" style="margin-top:5px">Well done!</h3>
-  <p style="margin-top:3px;">User Added Successfully</p>
-  <br>
-  <a href= "/" style="margin-bottom:2px;">Go to home page</p>
+    <h3 class="alert-heading" style="margin-top:5px">Well done!</h3>
+    <p style="margin-top:3px;">User Added Successfully</p>
+    <br>
+    <a href="/" style="margin-bottom:2px;">Go to home page</p>
 </div>
 {{/if}}
 
-{{>user_form}}
+<div class="row">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td colspan="1">
+                    <form class="well form-horizontal g-3 needs-validation" method="POST" action="/adduser"
+                        novalidate>
+                        {{>user_form}}
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

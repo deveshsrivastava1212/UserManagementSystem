@@ -13,7 +13,7 @@ exports.views = (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err;
         console.log(`Connected as ID ${connection.threadId}`);
-        connection.query('SELECT * FROM users', (err, rows) => {
+        connection.query('SELECT * FROM users WHERE status= "active"', (err, rows) => {
             //When connection is done, release it
             connection.release();
             if(!err) {
@@ -33,7 +33,7 @@ exports.find = (req,res) => {
         if(err) throw err;
         console.log(`Connected as ID ${connection.threadId}`);
         let search = req.body.search;
-        connection.query('SELECT * FROM users WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR phone LIKE ?', ['%'+ search +'%', '%'+ search +'%', '%'+ search +'%', '%'+ search +'%'], (err, rows) => {
+        connection.query('SELECT * FROM users WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR phone LIKE ? ', ['%'+ search +'%', '%'+ search +'%', '%'+ search +'%', '%'+ search +'%'], (err, rows) => {
             //When connection is done, release it
             connection.release();
             if(!err) {
@@ -133,25 +133,24 @@ exports.update = (req,res) => {
   //TO delete the user 
 exports.delete = (req,res) => {
     pool.getConnection((err, connection) => {
-      if(err) throw err;
-      console.log(`Connected as ID ${connection.threadId}`);
-      connection.query('DELETE FROM users WHERE id = ?', [req.params.id], (err, rows) => {
-          //When connection is done, release it
-          connection.release();
-          if(!err) {
-              let removedUser = "user_removed_successfully"
-              res.redirect('/?removed=', removedUser);
-          } 
-          else{
-              console.log(err);
-          }
-          // console.log("The Data of a user is :", rows);
-      })  
-  })
+        if(err) throw err;
+        console.log(`Connected as ID ${connection.threadId}`);
+        connection.query('UPDATE users SET status = ? WHERE id =? ', ['removed' ,req.params.id], (err, rows) => {
+            //When connection is done, release it
+            connection.release();
+            if(!err) {
+                res.redirect('/');
+            } 
+            else{
+                console.log(err);
+            }
+            // console.log("The Data of a user is :", rows);
+        })  
+    })
   }
 
   //To view all details of user
-exports.views = (req, res) => {
+exports.viewall = (req, res) => {
 pool.getConnection((err, connection) => {
     if(err) throw err;
     console.log(`Connected as ID ${connection.threadId}`);
@@ -159,7 +158,7 @@ pool.getConnection((err, connection) => {
         //When connection is done, release it
         connection.release();
         if(!err) {
-            res.render('home', {rows});
+            res.render('view_user', {rows});
         } 
         else{
             console.log(err);
